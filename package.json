@@ -1,6 +1,6 @@
 {
   "name": "homebridge-chaffolink",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Homebridge plugin to add compatibility with ChaffoLink boilers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
