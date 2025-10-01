@@ -11,13 +11,13 @@
       "pollInterval": {
         "title": "Get Status Interval (ms)",
         "type": "number",
-        "default": 10000,
+        "default": 60000,
         "minimum": 5000
       },
       "failRetryTime": {
         "title": "If fail, time to wait before retry (ms)",
         "type": "number",
-        "default": 60000,
+        "default": 120000,
         "minimum": 30000
       },
       "minTemp": { "title": "Min Temp", "type": "number", "default": 5 },

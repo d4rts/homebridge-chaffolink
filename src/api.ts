@@ -24,7 +24,6 @@ export class ChaffoLinkClient {
 
     async login(): Promise<void> {
         this.log.info('Connexion ChaffoLink…');
-        // TODO: adapte à ton endpoint d'auth
         const res = await this.http.post('/api/v2/accounts/login', {
             "imp": false,
             "appInfo": {

@@ -25,8 +25,8 @@ export class ChaffoLinkPlatform implements DynamicPlatformPlugin {
 
         const email = String(config.email ?? '');
         const password = String(config.password ?? '');
-        const pollInterval = Number(config.pollInterval ?? 10000);
-        const failRetryTime = Number(config.failRetryTime ?? 60000);
+        const pollInterval = Number(config.pollInterval ?? 60000);
+        const failRetryTime = Number(config.failRetryTime ?? 120000);
 
         if (!email || !password) {
             this.log.error('Missing parameters: username/password mandatory.');
