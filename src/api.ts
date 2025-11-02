@@ -224,7 +224,9 @@ export class ChaffoLinkClient {
             if (attempt > 3) {
                 this.tempToSet = value;
                 setTimeout(() => {
-                    this.setTargetTemp(this.tempToSet ?? 0);
+                    if (this.tempToSet !== null) {
+                        this.setTargetTemp(this.tempToSet);
+                    }
                 }, TIMEOUT_RETRY_SET_TEMP_MS);
                 throw e;
             }
@@ -243,7 +245,9 @@ export class ChaffoLinkClient {
         } catch (e) {
             this.heatingOrNotValue = active;
             setTimeout(() => {
-                this.setHeatingActive(this.heatingOrNotValue ?? false);
+                if (this.heatingOrNotValue !== null) {
+                    this.setHeatingActive(this.heatingOrNotValue);
+                }
             }, TIMEOUT_RETRY_SET_HEATING_ACTIVE_MS);
             if (attempt > 3) {
                 throw e;
