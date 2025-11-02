@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { Logger } from 'homebridge';
-import { BASE_API_URL } from './settings'
-import {userInfo} from "node:os";
+import { BASE_API_URL, TIMEOUT_RETRY_SET_TEMP_MS, TIMEOUT_RETRY_SET_HEATING_ACTIVE_MS } from './settings'
 
 type ClientOptions = {
     email: string;
@@ -14,6 +13,10 @@ export class ChaffoLinkClient {
     private http: AxiosInstance;
     private token: string | null = null;
     private gwId: string | null = null;
+
+    private tempToSet: number | null = null;
+
+    private heatingOrNotValue: boolean | null = null;
 
     constructor(private opts: ClientOptions, private log: Logger) {
         this.http = axios.create({
@@ -216,8 +219,13 @@ export class ChaffoLinkClient {
                     "comf": 0
                 }
             });
+            this.tempToSet = null;
         } catch (e) {
             if (attempt > 3) {
+                this.tempToSet = value;
+                setTimeout(() => {
+                    this.setTargetTemp(this.tempToSet ?? 0);
+                }, TIMEOUT_RETRY_SET_TEMP_MS);
                 throw e;
             }
             await this.login();
@@ -231,7 +239,12 @@ export class ChaffoLinkClient {
                 "old": (active ? 0 : 1),
                 "new": (active ? 1 : 0)
             });
+            this.heatingOrNotValue = null;
         } catch (e) {
+            this.heatingOrNotValue = active;
+            setTimeout(() => {
+                this.setHeatingActive(this.heatingOrNotValue ?? false);
+            }, TIMEOUT_RETRY_SET_HEATING_ACTIVE_MS);
             if (attempt > 3) {
                 throw e;
             }
